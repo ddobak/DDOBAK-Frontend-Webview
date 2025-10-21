@@ -1,109 +1,237 @@
-import React from 'react';
+import React from "react";
+import FAQSection from "./FAG";
 
-const DemoGuide: React.FC = () => (
-    <div className="relative max-w-4xl mx-auto px-6 py-8">
-        {/* 페이지 제목 */}
-        <h1 className="text-3xl font-bold mb-6">데모 사용 가이드</h1>
+const Img = ({ src, alt }: { src?: string; alt: string }) =>
+    src ? (
+        <img
+            src={src}
+            alt={alt}
+            className="mt-4 w-full h-auto rounded-xl"
+            loading="lazy"
+            decoding="async"
+        />
+    ) : null;
 
-        {/* beta 링크 헤더 */}
-        <h3 className="text-2xl font-semibold mb-4">
-            <a
-                href="https://testflight.apple.com/join/RPsqV3C9"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center hover:underline"
-            >
-                <img
-                    src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/f7/87/66/f7876663-0290-e3b2-ac01-315329b0980d/AppIcon-0-0-1x_U007ephone-0-1-0-85-220.png/1920x1080bb-80.png"
-                    alt="앱 아이콘"
-                    className="w-8 h-8 rounded mr-2"
-                />
-                Join the DDOBAK beta
-            </a>
-        </h3>
+const Guide: React.FC = () => {
+    const images = {
+        upload: "https://img.notionusercontent.com/s3/prod-files-secure%2F2b838b61-8caf-43f8-8a43-aac6045ed11d%2F1fade644-01e7-4055-a7ec-fa37733cd63e%2Fimage.png/size/w=2000?exp=1761151130&sig=mrihwvJQjRRR_79s-U72NEXGtBX1hoO5W3FRf4MWTHg&id=2927220c-4421-8057-bc85-f75acdaf8aba&table=block&userId=d77bda8f-addc-4a39-a464-fb8b420def80",
+        mask: "https://img.notionusercontent.com/s3/prod-files-secure%2F2b838b61-8caf-43f8-8a43-aac6045ed11d%2Fe633251d-ac03-42e0-8bd0-47eeb921cbec%2Fimage.png/size/w=2000?exp=1761151176&sig=fCAU_TpOdDzHmM8vyBeN7WdkYcV35VaaLtF-5hXb2Qg&id=2927220c-4421-8027-aeef-c2e06dd0eb5d&table=block&userId=d77bda8f-addc-4a39-a464-fb8b420def80",
+        preview: "https://img.notionusercontent.com/s3/prod-files-secure%2F2b838b61-8caf-43f8-8a43-aac6045ed11d%2F8492b7ec-d5ab-4d99-a581-504c44f63e0c%2Fimage.png/size/w=2000?exp=1761151200&sig=bBwYhuGubdFC71w49UqHUI6S5xZHKYc3Jq0wMi73MHU&id=2927220c-4421-808d-a1fa-c8947882a1de&table=block&userId=d77bda8f-addc-4a39-a464-fb8b420def80",
+        analyze: "https://img.notionusercontent.com/s3/prod-files-secure%2F2b838b61-8caf-43f8-8a43-aac6045ed11d%2F60e3e7fe-5354-4fba-8862-f5f7ef19d9da%2Fimage.png/size/w=2000?exp=1761040440&sig=ns2B_o2AP0UakH06vwwvlebSOlu-d2qO5Ey_-unTa5Y&id=2927220c-4421-8029-8f60-c857ea4dbfd0&table=block&userId=d77bda8f-addc-4a39-a464-fb8b420def80",
+        summary: "https://img.notionusercontent.com/s3/prod-files-secure%2F2b838b61-8caf-43f8-8a43-aac6045ed11d%2F2b81e456-6d33-4fb3-addc-070d398e64a8%2Fimage.png/size/w=2000?exp=1761040471&sig=vLITfkxqYTmItgy8Njt60kokVeUzYx1tx89RQLZ2aik&id=2927220c-4421-8004-8047-fb1e1e816825&table=block&userId=d77bda8f-addc-4a39-a464-fb8b420def80",
+        detail: "https://img.notionusercontent.com/s3/prod-files-secure%2F2b838b61-8caf-43f8-8a43-aac6045ed11d%2F680d3686-f695-4213-b641-9ff249936fba%2Fimage.png/size/w=2000?exp=1761040783&sig=ZtPRR1BpcCPK9dDmJHDCb3-eO4OPp0zDsfPxj_PY6dY&id=2927220c-4421-8031-83d9-d2fe8bc4124d&table=block&userId=d77bda8f-addc-4a39-a464-fb8b420def80",
+        export: "https://img.notionusercontent.com/s3/prod-files-secure%2F2b838b61-8caf-43f8-8a43-aac6045ed11d%2F9ed90067-be26-4004-8ec2-a16b15a13940%2F09f444ea-28d1-4b28-86f2-1728c171308e.png/size/w=2000?exp=1761040963&sig=6ydQ2faD7th8coSAkJyjrZzQGI7-C5e_eZhSx1iWgD8&id=2927220c-4421-801f-bd11-e32635092372&table=block&userId=d77bda8f-addc-4a39-a464-fb8b420def80",
+        archive: "https://img.notionusercontent.com/s3/prod-files-secure%2F2b838b61-8caf-43f8-8a43-aac6045ed11d%2F6531f4f3-3c69-4ed3-b31f-aca96a63d02c%2Fd75bfc73-00b6-4e9b-8672-7b1a14a07aa4.png/size/w=2000?exp=1761151508&sig=Wl6uNaEhzRfKNN9R_Z8PeYho2lNOl0OBhkx6aw9iPag&id=2937220c-4421-8005-8ab1-c94e83e3948c&table=block&userId=d77bda8f-addc-4a39-a464-fb8b420def80"
+    };
 
-        {/* 순서 목록 1 */}
-        <ol className="list-decimal list-inside space-y-2 mb-6">
-            <li>테스트플라이트에서 실행 후, 최하단으로 스크롤하여 Access Token 입력</li>
-        </ol>
+    return (
+        <div className="min-h-screen bg-neutral-50 px-4 sm:px-6 py-10">
+            <div className="max-w-2xl mx-auto text-neutral-800">
+                <header className="mb-10 text-center">
+                    <h1 className="text-3xl font-bold text-neutral-900 mb-2">
+                        또박 이용 가이드
+                    </h1>
+                    <p className="text-neutral-500 text-base">
+                        계약서를 쉽고 안전하게 확인하는 가장 간단한 방법
+                    </p>
+                </header>
+                <section className="mb-8 bg-white rounded-2xl p-6 shadow-sm">
+                    <h2 className="text-lg font-semibold text-neutral-900 mb-4">
+                        서비스 이용 전, 꼭 알아두세요!
+                    </h2>
+                    <ul className="space-y-3 text-sm sm:text-base leading-relaxed whitespace-pre-line break-keep">
+                        <li className="flex flex-col sm:flex-row gap-1">
+                            <span className="font-medium">지원 파일:</span> JPG, PNG, PDF
+                        </li>
+                        <li className="flex flex-col sm:flex-row gap-1">
+                            <span className="font-medium">권장:</span> 문서 전체가 보이게 촬영
+                            (그림자/기울기 최소화)
+                        </li>
+                        <li className="flex flex-col sm:flex-row gap-1">
+                            <span className="font-medium">개인정보:</span>
+                            <p>
+                                주민번호·계좌·서명 등은 업로드 전에{" "}
+                                <span className="font-semibold">직접 가리기</span> 권장
+                            </p>
+                        </li>
 
-        {/* 두 이미지 가로 배치 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <img
-                src="https://lemon-hockey-ad5.notion.site/image/attachment%3A20d5d334-2724-4652-92a0-eda272942f66%3Aimage.png?table=block&id=236f997e-6c3c-8036-8b86-ef81c72df058&spaceId=105393ee-64eb-465f-a2c3-c903cfb2e132&width=750&userId=&cache=v2"
-                alt="토큰 입력 예시 1"
-                className="w-full rounded-lg"
-            />
-            <img
-                src="https://lemon-hockey-ad5.notion.site/image/attachment%3A9a85aa7e-5fdd-4c6a-9186-1e24757127d5%3Aimage.png?table=block&id=236f997e-6c3c-804d-89b6-cf75dfe8c10e&spaceId=105393ee-64eb-465f-a2c3-c903cfb2e132&width=580&userId=&cache=v2"
-                alt="토큰 입력 예시 2"
-                className="w-full rounded-lg"
-            />
+                    </ul>
+                </section>
+
+                <section className="mb-8 bg-white rounded-2xl p-6 shadow-sm">
+                    <h2 className="text-lg font-semibold text-neutral-900 mb-4">
+                        분석 과정 한 눈에 보기 👀
+                    </h2>
+                    <ol className="space-y-3 text-sm sm:text-base">
+                        {["사진 찍기·업로드", "OCR 확인·수정", "분석 실행", "결과 저장·공유"].map(
+                            (step, i) => (
+                                <li key={i} className="flex items-center gap-3">
+                                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-neutral-900 text-white text-xs">
+                                        {i + 1}
+                                    </span>
+                                    {step}
+                                </li>
+                            )
+                        )}
+                    </ol>
+                </section>
+
+                <section className="mb-8 bg-white rounded-2xl p-6 shadow-sm">
+                    <h2 className="text-lg font-semibold text-neutral-900 mb-6">
+                        1단계. 계약서 업로드 &amp; OCR
+                    </h2>
+                    <div className="space-y-8 text-sm sm:text-base leading-relaxed break-keep">
+                        <div>
+                            <p>① “계약서 맡기기” → 사진 촬영 또는 파일 선택</p>
+                            <Img src={images.upload} alt="업로드 화면 예시" />
+                        </div>
+                        <div>
+                            <p>② 마스킹 도구로 민감정보를 블러/검정 처리</p>
+                            <Img src={images.mask} alt="마스킹 예시" />
+                        </div>
+                        <div>
+                            <p>③ 인식된 문장을 확인하고 오타를 수정</p>
+                            <Img src={images.preview} alt="OCR 미리보기 예시" />
+                        </div>
+                        <div>
+                            <p>④ “분석하기” 버튼을 눌러 분석 시작</p>
+                            <Img src={images.analyze} alt="분석 버튼 예시" />
+                        </div>
+                    </div>
+                </section>
+
+                <section className="mb-8 bg-white rounded-2xl p-6 shadow-sm">
+                    <h2 className="text-lg font-semibold text-neutral-900 mb-6">
+                        2단계. 분석 결과 보기
+                    </h2>
+                    <div className="space-y-8 text-sm sm:text-base leading-relaxed break-keep">
+                        <div>
+                            <p>① 핵심 요약 카드에서 주요 조항·금액·기간을 확인</p>
+                            <Img src={images.summary} alt="요약 카드 예시" />
+                        </div>
+                        <div>
+                            <p>
+                                ② 위험 가능성이 높은 조항은{" "}
+                                <span className="text-red-600 font-semibold">빨간색</span>으로 표시
+                            </p>
+                        </div>
+                        <div>
+                            <p>
+                                ③ <span className="font-semibold">조항 펼치기</span>를 누르면
+                                원문 인용·위험 이유·법적 근거를 함께 볼 수 있습니다.
+                                <br />
+                                (현재 버전은 “하이라이트 점프” 기능은 제공되지 않습니다.)
+                            </p>
+                            <Img src={images.detail} alt="상세 보기 예시" />
+                        </div>
+                        <div>
+                            <p>④ 분석 결과를 PDF로 저장하거나 공유할 수 있습니다.</p>
+                            <Img src={images.export} alt="PDF 저장 예시" />
+                        </div>
+                    </div>
+                </section>
+
+                <section className="mb-8 bg-white rounded-2xl p-6 shadow-sm">
+                    <h2 className="text-lg font-semibold text-neutral-900 mb-6">
+                        3단계. 결과 아카이브 확인 📁
+                    </h2>
+                    <div className="space-y-8 text-sm sm:text-base leading-relaxed break-keep">
+                        <div>
+                            <p>
+                                ① 분석이 완료된 계약서는 <span className="font-semibold">자동으로 보관함(아카이브)에 저장</span>됩니다.
+                                보관함에서 언제든 다시 열람할 수 있습니다.
+                            </p>
+                            <Img src={images.archive} alt="아카이브 예시" />
+                        </div>
+                        <div>
+                            <p>
+                                ② 각 문서는 요약 카드·위험 조항·PDF 파일 등 분석 결과를 그대로 보관합니다.
+                                원본 이미지는 별도 다운로드 없이 즉시 확인 가능합니다.
+                            </p>
+                        </div>
+                        <div>
+                            <p>
+                                ③ 아카이브에서 불필요한 문서는 <span className="font-semibold">삭제</span>할 수 있으며,
+                                삭제된 문서는 복구되지 않습니다.
+                            </p>
+                        </div>
+                        <div>
+                            <p>
+                                ④ 보관 중인 모든 문서는 안전하게 암호화되어 저장되며,{" "}
+                                <span className="font-semibold">본인만 접근</span>할 수 있습니다.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+
+                <section className="mb-8 grid gap-6 sm:grid-cols-2">
+                    <FAQSection />
+
+
+                    <div className="bg-white rounded-2xl p-6 shadow-sm">
+                        <h3 className="text-lg font-semibold text-neutral-900 mb-4">
+                            문제 해결 & 보안 🔒
+                        </h3>
+
+                        <div className="space-y-4 text-sm sm:text-base leading-relaxed text-neutral-700 break-keep whitespace-pre-line">
+                            <div className="flex items-start gap-2">
+                                <span className="mt-1 inline-block h-2 w-2 rounded-full bg-neutral-900" />
+                                <p>
+                                    <span className="font-semibold">업로드 실패:</span>
+                                    파일 크기 또는 형식을 확인한 뒤 다시 시도해주세요.
+                                    지원 형식은 <span className="font-semibold">JPG, PNG, PDF</span>입니다.
+                                </p>
+                            </div>
+
+                            <div className="flex items-start gap-2">
+                                <span className="mt-1 inline-block h-2 w-2 rounded-full bg-neutral-900" />
+                                <p>
+                                    <span className="font-semibold">글자 깨짐:</span>
+                                    더 밝은 곳에서 재촬영하거나, 스캔본을 사용하는 것을 권장합니다.
+                                    흐릿하거나 그림자가 있으면 OCR 인식률이 낮아질 수 있어요.
+                                </p>
+                            </div>
+
+                            <div className="flex items-start gap-2">
+                                <span className="mt-1 inline-block h-2 w-2 rounded-full bg-neutral-900" />
+                                <p>
+                                    <span className="font-semibold">결과 없음:</span>
+                                    문서의 가장자리가 잘리면 인식이 되지 않을 수 있습니다.
+                                    페이지가 프레임 안에 모두 들어오도록 다시 촬영해보세요.
+                                </p>
+                            </div>
+
+                            <div className="flex items-start gap-2">
+                                <span className="mt-1 inline-block h-2 w-2 rounded-full bg-neutral-900" />
+                                <p>
+                                    <span className="font-semibold">개인정보 보호:</span>
+                                    주민번호·계좌번호·서명 등은 업로드 전{" "}
+                                    <span className="font-semibold">직접 가리기</span> 기능을 이용해 마스킹하세요.
+                                </p>
+                            </div>
+
+                            <div className="flex items-start gap-2">
+                                <span className="mt-1 inline-block h-2 w-2 rounded-full bg-neutral-900" />
+                                <p>
+                                    <span className="font-semibold">보안 정책:</span>
+                                    업로드된 원본은 AWS S3에 임시 저장되며,
+                                    <span className="font-semibold">24시간 후 자동으로 완전히 삭제</span>됩니다.
+                                    저장 중에도 외부 접근이 불가능하도록 암호화되어 보호됩니다.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
+                {/* Footer */}
+                <footer className="text-center text-sm text-neutral-400 mt-12">
+                    © {new Date().getFullYear()} 또박
+                </footer>
+            </div>
         </div>
+    );
+};
 
-        {/* Access Token 섹션 */}
-        <h2 className="text-xl font-semibold mb-2">Access Token</h2>
-        <pre className="bg-[#F7F6F3] rounded-2xl p-4 font-mono text-sm mb-6 overflow-auto">
-            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5OTkiLCJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20iLCJuYW1lIjoiWW9vbmppIiwidG9rZW5UeXBlIjoiYWNjZXNzIiwiaWF0IjoxNzA0MDY3MjAwLCJleHAiOjk5OTk5OTk5OTl9.UHFQeesHjt1P-Hmf5JYflqnXCj-N7CqokxCpNxAZu-A
-        </pre>
-
-        {/* 순서 목록 2 */}
-        <ol className="list-decimal list-inside space-y-2 mb-6">
-            <li>
-                기능 관련 사용법은{' '}
-                <a
-                    href="https://www.notion.so/236f997e6c3c803fa005efb4b8c65943?pvs=21"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline underline-offset-4"
-                >
-                    <span
-                        style={{
-                            display: 'inline-block',
-                            marginLeft: '0.1em',
-                            marginRight: '0.5em',
-                            width: '1em',
-                            whiteSpace: 'nowrap',
-                            position: 'relative'
-                        }}
-                    >
-                        🦮
-                        <svg
-                            aria-hidden="true"
-                            role="graphics-symbol"
-                            viewBox="0 0 13 13"
-                            style={{
-                                width: '0.7em',
-                                height: '0.7em',
-                                display: 'block',
-                                fill: 'rgba(50, 48, 44, 1)',
-                                flexShrink: 0,
-                                position: 'absolute',
-                                right: '-0.2em',
-                                bottom: 0,
-                                stroke: 'white',
-                                strokeWidth: 1.5
-                            }}
-                            className="pageLinkIndicator"
-                        >
-                            <path d="M6.30826 4.43292L1.76184 8.98454C1.76176 8.98462 1.76169 8.9847 1.76161 8.98477C1.76158 8.9848 1.76156 8.98482 1.76154 8.98484C1.46068 9.28584 1.25 9.6914 1.25 10.1565C1.25 10.6117 1.45865 11.0119 1.73417 11.2886C2.01014 11.5658 2.41107 11.7773 2.87078 11.7773C3.34169 11.7773 3.73758 11.5617 4.03477 11.2733L4.03482 11.2734L4.04244 11.2657L8.58864 6.72474V8.667C8.58864 9.51956 9.22729 10.2935 10.1521 10.2935C11.0528 10.2935 11.75 9.54534 11.75 8.66127V2.92671C11.75 2.48722 11.5981 2.06381 11.2838 1.74808C10.9689 1.43182 10.5446 1.27728 10.1006 1.27728H4.36028C3.46161 1.27728 2.72804 1.97749 2.72804 2.86942C2.72804 3.79734 3.51104 4.43292 4.35455 4.43292H6.30826Z" fill="#3E3C38" stroke="white" strokeWidth="1.5"></path>
-                        </svg>
-                    </span>
-                    또박이 이용 가이드
-                </a>{' '}
-                참고
-            </li>
-        </ol>
-
-        {/* 추가 이미지 */}
-        <div className="mb-6">
-            <img
-                src="https://lemon-hockey-ad5.notion.site/image/attachment%3A34b25925-a36a-4daa-adab-2a78ead0a6cb%3Aimage.png?table=block&id=236f997e-6c3c-803e-91c1-f3c25b466526&spaceId=105393ee-64eb-465f-a2c3-c903cfb2e132&width=1120&userId=&cache=v2"
-                alt="추가 예시"
-                className="w-full rounded-lg"
-            />
-        </div>
-    </div>
-);
-
-export default DemoGuide;
+export default Guide;
